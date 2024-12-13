@@ -1,0 +1,48 @@
+---
+ - name: Install Glance packages (Ubuntu)
+   apt:
+     name: 
+       - glance
+       - python3-glanceclient
+     state: present
+     update_cache: yes
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Enable and Start Glance services (Ubuntu)
+   systemd:
+     name: glance-api
+     state: started
+     enabled: yes
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Install Keystone (Ubuntu)
+   package:
+     name: keystone
+     state: present
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Enable and Start Keystone services (Ubuntu)
+   systemd: 
+     name: apache2
+     state: started
+     enabled: yes
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Restart Apache Service (Ubuntu)
+   systemd:
+     name: apache2
+     enabled: yes
+     state: restarted
+   when: ansible_distribution == "Ubuntu"
+
+ - name: Install Nova packages (Ubuntu)
+   package:
+     name:
+       - nova-api
+       - nova-scheduler
+       - nova-conductor
+       - nova-compute
+     state: present
+     update_cache: yes
+   when: ansible_distribution == "Ubuntu"
+
